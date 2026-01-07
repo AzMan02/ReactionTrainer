@@ -9,10 +9,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#2d3436">
-    <link rel="manifest" href="./manifest.json">
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='www.w3.org' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232d3436'/><path d='M30 82 L70 82 L50 75 Z' fill='%23fbc531'/><circle cx='55' cy='20' r='7' fill='white'/><path d='M55 27 L50 50 L65 72 M50 50 L30 55 M55 35 L80 30 M55 35 L35 40' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='www.w3.org' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232d3436'/><path d='M30 82 L70 82 L50 75 Z' fill='%23fbc531'/><circle cx='55' cy='20' r='7' fill='white'/><path d='M55 27 L50 50 L65 72 M50 50 L30 55 M55 35 L80 30 M55 35 L35 40' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/></svg>">
 
     <style>
         :root { 
@@ -34,42 +30,31 @@
             background: rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 10; backdrop-filter: blur(5px);
         }
-        
         #watermark-timer {
             position: absolute; font-size: min(50vw, 50vh); font-weight: 900;
-            color: rgba(255, 255, 255, 0.12);
-            z-index: 0; pointer-events: none; display: none;
+            color: rgba(255, 255, 255, 0.12); z-index: 0; pointer-events: none; display: none;
             font-variant-numeric: tabular-nums; letter-spacing: -10px;
         }
-
         .big-val { 
             font-size: min(40vw, 40vh); font-weight: 900; color: var(--accent);
             text-shadow: 0 0 30px rgba(251, 197, 49, 0.4); line-height: 1;
         }
-        #dial-visual-wrapper {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            pointer-events: none; z-index: 1;
-        }
+        #dial-visual-wrapper { position: absolute; width: 100%; height: 100%; border-radius: 50%; pointer-events: none; z-index: 1; }
         .dial-mark {
             position: absolute; width: 6px; height: 35px; background: var(--accent);
             left: 50%; top: 10px; transform-origin: 50% calc(min(92vw, 92vh) / 2 - 10px);
-            opacity: 0.7; border-radius: 3px;
+            opacity: 0.7; border-radius: 3px; margin-left: -3px;
         }
         .tick { position: absolute; width: 4px; height: 22px; background: rgba(255,255,255,0.6); z-index: 2; left: 50%; top: 50%; margin-left: -2px; margin-top: -11px; }
-        
         #setup-info { position: absolute; z-index: 10; text-align: center; pointer-events: none; }
         #setup-sub { font-size: 1.1rem; font-weight: bold; opacity: 0.7; letter-spacing: 2px; }
-
         #needle-wrapper {
             position: absolute; width: 100%; height: 100%;
             transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1.2), opacity 0.3s ease;
             display: flex; align-items: center; justify-content: center; z-index: 5;
             opacity: 0; visibility: hidden; pointer-events: none;
         }
-        #needle-main {
-            position: relative; width: min(12vw, 10vh); height: 75%;
-            filter: drop-shadow(0 0 12px rgba(0,0,0,0.5));
-        }
+        #needle-main { position: relative; width: min(12vw, 10vh); height: 75%; filter: drop-shadow(0 0 12px rgba(0,0,0,0.5)); }
         #needle-main::before {
             content: ''; position: absolute; bottom: 50%; left: 0;
             border-left: min(6vw, 5vh) solid transparent; border-right: min(6vw, 5vh) solid transparent;
@@ -80,7 +65,6 @@
             border-left: min(6vw, 5vh) solid transparent; border-right: min(6vw, 5vh) solid transparent;
             border-top: min(12vw, 12vh) solid var(--needle-sub);
         }
-
         #pause-overlay {
             position: absolute; width: 100%; height: 100%; 
             background: rgba(45, 52, 54, 0.95); z-index: 1000; display: none; 
@@ -89,30 +73,18 @@
         #pause-title { font-size: 1.4rem; font-weight: 900; color: white; margin-bottom: 5px; letter-spacing: 1px; }
         #pause-time-val { font-size: min(22.4vw, 22.4vh); margin-bottom: 20px; transform: translateY(-10%); }
         #pause-btn-container { display: flex; width: 100%; justify-content: center; gap: 10px; transform: translateY(5%); }
-        
         .circle-btn {
             width: min(35vw, 35vh); height: min(35vw, 35vh); border-radius: 50%;
-            background: transparent; color: white; font-weight: 900; 
-            font-size: clamp(1rem, 5vw, 1.4rem);
+            background: transparent; color: white; font-weight: 900; font-size: clamp(1rem, 5vw, 1.4rem);
             cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: transform 0.1s; box-sizing: border-box; white-space: nowrap;
         }
         .btn-resume { border: 8px solid var(--accent); }
         .btn-reset { border: 8px solid var(--danger); }
         .circle-btn:active { transform: scale(0.9); }
-
-        /* 시작 알림 텍스트 */
         #start-hint { font-size: 0.9rem; color: var(--accent); margin-top: 10px; opacity: 0.8; animation: blink 1.5s infinite; }
         @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
     </style>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(err => console.log('SW 실패:', err));
-            });
-        }
-    </script>
 </head>
 <body>
 
@@ -120,7 +92,7 @@
         <div id="watermark-timer">0</div>
         <div id="dial-visual-wrapper"></div>
         <div id="setup-info">
-            <div id="current-val" class="big-val">4</div> <!-- 기본값 4초 -->
+            <div id="current-val" class="big-val">4</div>
             <div id="setup-sub">±2 SECONDS</div>
             <div id="start-hint">터치하여 시작</div>
         </div>
@@ -148,12 +120,31 @@
         const resumeBtn = document.getElementById('resume-btn');
         const resetBtn = document.getElementById('reset-btn');
         
-        let isRunning = false, isPaused = false, avgInterval = 4; // 기본 4초
+        let isRunning = false, isPaused = false, avgInterval = 4;
         let isDragging = false, hasDragged = false, lastAngle = 0;
         let totalSeconds = 0, exerciseTimer = null, trainingTimeout = null;
+        let wakeLock = null;
 
         const safePastels = ['#a29bfe', '#74b9ff', '#ffeaa7', '#fab1a0', '#81ecec', '#fd79a8'];
         const dirNames = ["상단", "우측 상단", "우측", "우측 하단", "하단", "좌측 하단", "좌측", "좌측 상단"];
+
+        // 갤럭시워치 화면 꺼짐 방지 함수
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            } catch (err) {
+                console.error(`${err.name}, ${err.message}`);
+            }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release();
+                wakeLock = null;
+            }
+        }
 
         const initUI = () => {
             const rad = Math.min(window.innerWidth, window.innerHeight) * 0.46;
@@ -183,8 +174,6 @@
                 isDragging = false; 
                 hasDragged = false;
                 lastAngle = getAngle(e.clientX, e.clientY);
-                
-                // 포인터가 일정량 이상 움직일 때만 드래그로 판정하기 위해 캡처
                 container.setPointerCapture(e.pointerId);
             } else {
                 pauseTraining();
@@ -193,17 +182,14 @@
 
         container.onpointermove = (e) => {
             if (isRunning || e.buttons !== 1) return;
-            
             const currentAngle = getAngle(e.clientX, e.clientY);
             let diff = currentAngle - lastAngle;
             if (diff > 180) diff -= 360;
             if (diff < -180) diff += 360;
             
-            // 미세한 움직임은 드래그로 처리
             if (Math.abs(diff) > 2) {
                 isDragging = true;
                 hasDragged = true;
-                // 최소값 3초 적용
                 avgInterval = Math.max(3, Math.min(20, avgInterval + (diff > 0 ? 0.2 : -0.2)));
                 currentValDisplay.innerText = Math.round(avgInterval);
                 lastAngle = currentAngle;
@@ -211,17 +197,15 @@
         };
 
         container.onpointerup = (e) => {
-            if (!isRunning) {
-                // 드래그가 없었거나 미미했다면 클릭으로 간주하여 시작
-                if (!hasDragged) {
-                    startTraining();
-                }
-                isDragging = false;
+            if (!isRunning && !hasDragged) {
+                startTraining();
             }
+            isDragging = false;
         };
 
         function startTraining() {
             isRunning = true;
+            requestWakeLock(); // 화면 꺼짐 방지 시작
             setupInfo.style.display = 'none';
             needleWrapper.style.opacity = '1';
             needleWrapper.style.visibility = 'visible';
@@ -237,10 +221,13 @@
 
         function triggerNext() {
             if (!isRunning || isPaused) return;
-            const randomIdx = Math.floor(Math.random() * 8);
-            needleWrapper.style.transform = `rotate(${randomIdx * 45}deg)`;
+            const randomNeedleIdx = Math.floor(Math.random() * 8);
+            const randomSpeakIdx = Math.floor(Math.random() * 8);
+            
+            needleWrapper.style.transform = `rotate(${randomNeedleIdx * 45}deg)`;
             document.body.style.backgroundColor = safePastels[Math.floor(Math.random() * safePastels.length)];
-            speak(dirNames[randomIdx]);
+            
+            speak(dirNames[randomSpeakIdx]);
             
             const nextTime = (Math.round(avgInterval) * 1000) + (Math.random() * 4000 - 2000);
             trainingTimeout = setTimeout(triggerNext, Math.max(1500, nextTime));
@@ -248,6 +235,7 @@
 
         function pauseTraining() {
             isPaused = true;
+            releaseWakeLock(); // 일시정지 시 해제
             pauseTimeVal.innerText = formatTime(totalSeconds);
             pauseOverlay.style.display = 'flex';
             clearInterval(exerciseTimer);
@@ -257,6 +245,7 @@
         resumeBtn.onclick = (e) => {
             e.stopPropagation();
             isPaused = false;
+            requestWakeLock(); // 다시 시작 시 활성화
             pauseOverlay.style.display = 'none';
             exerciseTimer = setInterval(() => {
                 totalSeconds++;
@@ -267,6 +256,7 @@
 
         resetBtn.onclick = (e) => {
             e.stopPropagation();
+            releaseWakeLock();
             location.reload();
         };
 
@@ -283,6 +273,13 @@
             u.rate = 1.4;
             window.speechSynthesis.speak(u);
         }
+
+        // 가시성 변경 시 (워치 앱 전환 등) Wake Lock 재요청 로직
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible' && isRunning && !isPaused) {
+                await requestWakeLock();
+            }
+        });
     </script>
 </body>
 </html>
