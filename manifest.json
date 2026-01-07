@@ -1,0 +1,18 @@
+{
+  "name": "나침반 반응 훈련 Pro",
+  "short_name": "나침반훈련",
+  "description": "밸런스보드 위에서 수행하는 나침반 반응 훈련 앱",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#2d3436",
+  "theme_color": "#2d3436",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgcng9IjIwIiBmaWxsPSIjMmQzNDM2Ii8+PHBhdGggZD0iTTMwIDgyIEw3MCA4MiBMNTAgNzUgWiIgZmlsbD0iI2ZiYzMxIi8+PGNpcmNsZSBjeD0iNTUiIGN5PSIyMCIgcj0iNyIgZmlsbD0id2hpdGUiLz48cGF0aCBkPSJNNTUgMjcgTDUwIDUwIEw2NSA3MiBNNTAgNTAgTDMwIDU1IE01NSAzNSBMODAgMzAgTTU1IDM1IEwzNSA0MCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI0IiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
