@@ -1,17 +1,16 @@
-const CACHE_NAME = 'compass-pro-v1';
-const ASSETS_TO_CACHE = [
-  './',
-  './index.html',
-  './manifest.json'
+const CACHE_NAME = 'reaction-v1';
+const ASSETS = [
+  '/Reactiontrainer/',
+  '/Reactiontrainer/index.html',
+  '/Reactiontrainer/manifest.json',
+  '/Reactiontrainer/icon-192.png',
+  '/Reactiontrainer/icon-512.png'
 ];
 
-// 앱 설치 시 파일 저장
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
+self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
 });
 
-// 인터넷 연결 여부와 상관없이 저장된 파일 호출
+self.addEventListener('fetch', (e) => {
+  e.respondWith(caches.match(e.request).then((res) => res || fetch(e.request)));
+});
